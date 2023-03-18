@@ -4,7 +4,7 @@
  * @Autor: StevenWu
  * @Date: 2023-03-19 06:49:53
  * @LastEditors: StevenWu
- * @LastEditTime: 2023-03-19 07:06:27
+ * @LastEditTime: 2023-03-19 07:25:50
  */
 import { BASE_URL } from "./config/config"
 class WSRequest {
@@ -34,4 +34,4 @@ class WSRequest {
   }
 }
 
-export default new WSRequest(BASE_URL)
+export const wsRequest = new WSRequest(BASE_URL)

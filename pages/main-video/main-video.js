@@ -4,7 +4,7 @@
  * @Autor: StevenWu
  * @Date: 2023-03-19 06:23:30
  * @LastEditors: StevenWu
- * @LastEditTime: 2023-03-19 07:13:39
+ * @LastEditTime: 2023-03-19 07:24:22
  */
 import { getTopMV } from "../../services/api/video"
 Page({
@@ -29,7 +29,7 @@ Page({
    */
   async fetchTopMV() {
     // 1.获取数据
-    const res = await getTopMV()
+    const res = await getTopMV(this.data.offset)
     // 2.将新的数据追加到原来数据的后面
     const newVideoList = [...this.data.videoList, ...res.data]
 
