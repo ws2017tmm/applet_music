@@ -5,7 +5,9 @@
     <view>{{itemData.name}}</view>
     <view class="source">
       <image class="icon" src="/assets/images/icons/sq_icon.png"></image>
-      <text>{{itemData.ar[0].name}}</text>
+      {{itemData.ar[0].name || itemData.artists[0].name}}
+      <text wx:if="{{itemData.alia[0]}}"> · {{itemData.alia[0]}}</text>
+      <text wx:elif="{{itemData.alias[0]}}"> · {{itemData.alias[0]}}</text>
     </view>
   </view>
 </view>
