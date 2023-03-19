@@ -2,7 +2,10 @@
   "pages": [
     "pages/main-music/main-music",
     "pages/main-video/main-video",
-    "pages/video-detail/video-detail"
+    "pages/video-detail/video-detail",
+    "pages/detail-song/detail-song",
+    "pages/detail-menu/detail-menu",
+    "pages/detail-search/detail-search"
   ],
   "tabBar": {
     "list": [
