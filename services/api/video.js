@@ -4,7 +4,7 @@
  * @Autor: StevenWu
  * @Date: 2023-03-19 07:03:35
  * @LastEditors: StevenWu
- * @LastEditTime: 2023-03-19 07:16:03
+ * @LastEditTime: 2023-03-19 10:30:00
  */
 import { wsRequest } from "../request"
 
@@ -18,7 +18,7 @@ export function getTopMV(offset = 0, limit = 20) {
   })
 }
 
-export function getMVUrl(id) {
+export function getMVURL(id) {
   return wsRequest.get({
     url: "/mv/url",
     data: {
@@ -27,7 +27,7 @@ export function getMVUrl(id) {
   })
 }
 
-export function getMVInfo(mvid) {
+export function getMVDetail(mvid) {
   return wsRequest.get({
     url: "/mv/detail",
     data: {

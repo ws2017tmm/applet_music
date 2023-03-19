@@ -4,7 +4,7 @@
  * @Autor: StevenWu
  * @Date: 2023-03-19 06:23:30
  * @LastEditors: StevenWu
- * @LastEditTime: 2023-03-19 08:39:20
+ * @LastEditTime: 2023-03-19 09:58:41
  */
 import { getTopMV } from "../../services/api/video"
 Page({
@@ -60,5 +60,10 @@ Page({
     // 3.停止下拉刷新
     wx.stopPullDownRefresh()
   },
-  onVideoItemTap(event) {}
+  onVideoItemTap(event) {
+    const item = event.currentTarget.dataset.item
+    wx.navigateTo({
+      url: `/pages/video-detail/video-detail?id=${item.id}`
+    })
+  }
 })

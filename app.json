@@ -1,5 +1,9 @@
 {
-  "pages": ["pages/main-musci/main-music", "pages/main-video/main-video"],
+  "pages": [
+    "pages/main-musci/main-music",
+    "pages/main-video/main-video",
+    "pages/video-detail/video-detail"
+  ],
   "tabBar": {
     "list": [
       {
