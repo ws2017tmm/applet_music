@@ -4,11 +4,12 @@
  * @Autor: StevenWu
  * @Date: 2023-03-19 06:20:53
  * @LastEditors: StevenWu
- * @LastEditTime: 2023-03-19 17:49:36
+ * @LastEditTime: 2023-03-19 20:24:14
  */
 // pages/main-music/main-music.js
 import { getMusicBanner, getSongMenuList } from "../../services/api/music"
 import recommendStore from "../../store/recommendStore"
+import rankingStore, { rankingsMap } from "../../store/rankingStore"
 import { querySelector } from "../../utils/query-selector"
 import { throttle } from "underscore"
 
@@ -41,10 +42,8 @@ Page({
     // 网络请求
     this.fetchNetwork()
 
-    // 推荐歌曲
-    recommendStore.onState("recommendSongInfo", this.handleRecommendSongs)
-    // 发起action
-    recommendStore.dispatch("fetchRecommendSongsAction")
+    // 使用store
+    this.useStore()
   },
   // ====================== 网络请求 ======================
   fetchNetwork() {
@@ -58,6 +57,29 @@ Page({
       this.setData({ recMenuList: res.playlists })
     })
   },
+  // ====================== 使用store存储数据 ======================
+  useStore() {
+    // 推荐歌曲
+    recommendStore.onState("recommendSongInfo", this.handleRecommendSongs)
+    // 发起action
+    recommendStore.dispatch("fetchRecommendSongsAction")
+
+    for (const key in rankingsMap) {
+      rankingStore.onState(key, this.getRankingHanlder(key))
+    }
+    rankingStore.dispatch("fetchRankingDataAction")
+  },
+  handleRecommendSongs(value) {
+    if (!value.tracks) return
+    this.setData({ recommendSongs: value.tracks.slice(0, 6) })
+  },
+  getRankingHanlder(ranking) {
+    return (value) => {
+      this.setData({ isRankingData: true })
+      const newRankingInfos = { ...this.data.rankingInfos, [ranking]: value }
+      this.setData({ rankingInfos: newRankingInfos })
+    }
+  },
   // ====================== 界面的事件监听方法 ======================
   onSearchClick() {
     wx.navigateTo({ url: "/pages/detail-search/detail-search" })
@@ -68,17 +90,31 @@ Page({
       this.setData({ bannerHeight: res[0].height })
     })
   },
-
-  onRecommendMoreClick() {},
-
-  // ====================== 从Store中获取数据 ======================
-  handleRecommendSongs(value) {
-    if (!value.tracks) return
-    this.setData({ recommendSongs: value.tracks.slice(0, 6) })
+  // 推荐歌曲点击更多
+  onRecommendSongsMoreClick() {
+    wx.navigateTo({
+      url: "/pages/detail-song/detail-song?type=recommend"
+    })
   },
-
+  // 热门歌单点击更多
+  onHotMenuMoreClick() {
+    wx.navigateTo({
+      url: "/pages/detail-menu/detail-menu"
+    })
+  },
+  // 推荐歌曲点击更多
+  onRecommendMenuMoreClick() {
+    wx.navigateTo({
+      url: "/pages/detail-menu/detail-menu"
+    })
+  },
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload() {}
+  onUnload() {
+    recommendStore.offState("recommendSongs", this.handleRecommendSongs)
+    rankingStore.offState("newRanking", this.handleNewRanking)
+    rankingStore.offState("originRanking", this.handleOriginRanking)
+    rankingStore.offState("upRanking", this.handleUpRanking)
+  }
 })

@@ -1,10 +1,10 @@
 /*
- * @Description: 
+ * @Description:
  * @Version: 1.0
  * @Autor: StevenWu
  * @Date: 2023-03-19 17:37:27
  * @LastEditors: StevenWu
- * @LastEditTime: 2023-03-19 17:38:57
+ * @LastEditTime: 2023-03-19 20:15:39
  */
 // components/menu-area/menu-area.js
 const app = getApp()
@@ -32,9 +32,10 @@ Component({
 
   methods: {
     onMenuMoreClick() {
-      wx.navigateTo({
-        url: "/pages/detail-menu/detail-menu"
-      })
+      this.triggerEvent("moreclick")
+      // wx.navigateTo({
+      //   url: "/pages/detail-menu/detail-menu"
+      // })
     }
   }
 })
