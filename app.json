@@ -17,7 +17,7 @@
     ]
   },
   "window": {
-    "backgroundTextStyle": "light",
+    "backgroundTextStyle": "dark",
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "WSMusic",
     "navigationBarTextStyle": "black"

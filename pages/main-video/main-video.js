@@ -4,7 +4,7 @@
  * @Autor: StevenWu
  * @Date: 2023-03-19 06:23:30
  * @LastEditors: StevenWu
- * @LastEditTime: 2023-03-19 07:24:22
+ * @LastEditTime: 2023-03-19 08:39:20
  */
 import { getTopMV } from "../../services/api/video"
 Page({
@@ -24,6 +24,7 @@ Page({
     // 发送网络请求
     this.fetchTopMV()
   },
+  // =================  发送网络请求的方法 =================
   /**
    * 网络请求获取数据
    */
@@ -31,45 +32,33 @@ Page({
     // 1.获取数据
     const res = await getTopMV(this.data.offset)
     // 2.将新的数据追加到原来数据的后面
-    const newVideoList = [...this.data.videoList, ...res.data]
+    const newData = res.data || []
+    const newVideoList = [...this.data.videoList, ...newData]
 
     // 3.设置全新的数据
     this.setData({ videoList: newVideoList })
     this.data.offset = this.data.videoList.length
     this.data.hasMore = res.hasMore
   },
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady() {},
+  // =================  监听上拉和下拉功能  =================
+  onReachBottom() {
+    // 1.判断是否有更多的数据
+    if (!this.data.hasMore) return
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow() {},
+    // 2.如果有更多的数据, 再请求新的数据
+    this.fetchTopMV()
+  },
+  async onPullDownRefresh() {
+    // 1.清空之前的数据
+    this.setData({ videoList: [] })
+    this.data.offset = 0
+    this.data.hasMore = true
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide() {},
+    // 2.重新请求新的数据
+    await this.fetchTopMV()
 
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload() {},
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh() {},
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom() {},
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage() {}
+    // 3.停止下拉刷新
+    wx.stopPullDownRefresh()
+  },
+  onVideoItemTap(event) {}
 })
